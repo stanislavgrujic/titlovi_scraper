@@ -1,4 +1,5 @@
 import sys
+import os
 
 from bs4 import BeautifulSoup
 import requests
@@ -31,6 +32,10 @@ def extract_subtitle(subtitle, rating):
           if file.endswith("srt"):
             # subtitleFile = movieName + "/" + movieName + "." + str(rating) + ".srt"
             zipfile.extract(file, movieName)
+
+def delete(subtitle):
+    filename = subtitle["id"] + ".zip"
+    os.remove(filename)
 
 movieName = sys.argv[1]
 searchUrl = 'https://titlovi.com/titlovi/?prijevod=' + convert_movie_name_to_search_term(movieName)
@@ -68,3 +73,4 @@ for subtitle in subtitles:
     rating = rating + 1
     download_subtitle(subtitle)
     extract_subtitle(subtitle, rating)
+    delete(subtitle)
